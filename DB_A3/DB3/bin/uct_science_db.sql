@@ -7,65 +7,71 @@ CREATE TABLE uct_science.Student (
   CurrentFaculty VARCHAR(255) NOT NULL,
   ApplicationStatus VARCHAR(255) NOT NULL DEFAULT 'New',
   Funding VARCHAR(255) NOT NULL,
-  AdvisorID INT,
   CareerLevel VARCHAR(255),
-  ExpectedGraduationDate DATE,
   FOREIGN KEY (AdvisorID) REFERENCES Advisors(AdvisorID)
   
+);
+
+CREATE TABLE uct_science.MatricInformation(
+  MatricID INT PRIMARY KEY,
+  MatricAverage INT,
+  Mathematics INT,
+  PhysicalScience INT,
+  InformationTechnology INT
 );
 
 CREATE TABLE uct_science.Majors (
   MajorID INT PRIMARY KEY,
   MajorName VARCHAR(255) NOT NULL,
   Department VARCHAR(255) NOT NULL,
+  AdvisorID INT,
   MajorRequirements VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE uct_science.AcademicRecord (
   StudentID INT NOT NULL,
-  CourseID INT NOT NULL,
+  CourseCode INT NOT NULL,
   YearTaken INT NOT NULL,
   Semester VARCHAR(255) NOT NULL,
-  Grade VARCHAR(255),
-  PRIMARY KEY (StudentID, CourseID, YearTaken, Semester),
+  Grade INT NOT NULL,
+  PRIMARY KEY (StudentID, CourseCode, YearTaken, Semester),
   FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
-  FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+  FOREIGN KEY (CourseCode) REFERENCES Courses(CourseCode)
 );
 
 CREATE TABLE uct_science.CourseRequirements (
-  MajorID INT NOT NULL,
-  CourseID INT NOT NULL,
-  PRIMARY KEY (MajorID, CourseID),
-  FOREIGN KEY (MajorID) REFERENCES Majors(MajorID),
-  FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+  CourseRequirementsCourseID INT NOT NULL,
+  CourseCode INT NOT NULL,
+  PRIMARY KEY (CourseRequirementsCourseID, CourseCode),
+  FOREIGN KEY (CourseRequirementsCourseID) REFERENCES Courses(CourseCode),
+  FOREIGN KEY (CourseCode) REFERENCES Courses(CourseCode)
 );
 
 CREATE TABLE uct_science.Courses (
-  CourseID INT PRIMARY KEY,
-  CourseCode VARCHAR(255) NOT NULL UNIQUE,
+  CourseCode VARCHAR(255) PRIMARY KEY,
   CourseName VARCHAR(255) NOT NULL,
-  DepartmentID INT NOT NULL,
+  CourseCredits INT,
   CourseConvenor VARCHAR(255) DEFAULT NULL,
   Lecturer VARCHAR(255) DEFAULT NULL,
   Administrator VARCHAR(255) DEFAULT NULL,
-  FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID)
+  
 );
 
 
 CREATE TABLE uct_science.CoursePrerequisites (
   PrerequisiteCourseID INT NOT NULL,
-  CourseID INT NOT NULL,
-  PRIMARY KEY (PrerequisiteCourseID, CourseID),
-  FOREIGN KEY (PrerequisiteCourseID) REFERENCES Courses(CourseID),
-  FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+  CourseCode INT NOT NULL,
+  PRIMARY KEY (PrerequisiteCourseID, CourseCode),
+  FOREIGN KEY (PrerequisiteCourseID) REFERENCES Courses(CourseCode),
+  FOREIGN KEY (CourseCode) REFERENCES Courses(CourseCode)
 );
 
 CREATE TABLE uct_science.CourseCorequisites (
   CorequisiteCourseID INT NOT NULL,
-  CourseID INT NOT NULL,
-  PRIMARY KEY (CorequisiteCourseID, CourseID),
-  FOREIGN KEY (CorequisiteCourseID) REFERENCES Courses(CourseID),
-  FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+  CourseCode INT NOT NULL,
+  PRIMARY KEY (CorequisiteCourseID, CourseCode),
+  FOREIGN KEY (CorequisiteCourseID) REFERENCES Courses(CourseCode),
+  FOREIGN KEY (CourseCode) REFERENCES Courses(CourseCode)
 );
 
 CREATE TABLE uct_science.Advisors (
