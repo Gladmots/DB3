@@ -1,18 +1,17 @@
 
-CREATE TABLE uct_science.Student (
+CREATE TABLE IF NOT EXISTS uct_science.Student (
   StudentID INT PRIMARY KEY,
   FirstName VARCHAR(255) NOT NULL,
   LastName VARCHAR(255) NOT NULL,
-  E-mail VARCHAR(255) NOT NULL,
+  Email VARCHAR(255) NOT NULL,
   CurrentFaculty VARCHAR(255) NOT NULL,
   ApplicationStatus VARCHAR(255) NOT NULL DEFAULT 'New',
   Funding VARCHAR(255) NOT NULL,
-  CareerLevel VARCHAR(255),
-  FOREIGN KEY (AdvisorID) REFERENCES Advisors(AdvisorID)
+  CareerLevel VARCHAR(255)
   
 );
 
-CREATE TABLE uct_science.MatricInformation(
+CREATE TABLE IF NOT EXISTS uct_science.MatricInformation(
   MatricID INT PRIMARY KEY,
   MatricAverage INT,
   Mathematics INT,
@@ -20,7 +19,7 @@ CREATE TABLE uct_science.MatricInformation(
   InformationTechnology INT
 );
 
-CREATE TABLE uct_science.Majors (
+CREATE TABLE IF NOT EXISTS uct_science.Majors (
   MajorID INT PRIMARY KEY,
   MajorName VARCHAR(255) NOT NULL,
   Department VARCHAR(255) NOT NULL,
@@ -28,7 +27,7 @@ CREATE TABLE uct_science.Majors (
   MajorRequirements VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE uct_science.AcademicRecord (
+CREATE TABLE IF NOT EXISTS uct_science.AcademicRecord (
   StudentID INT NOT NULL,
   CourseCode INT NOT NULL,
   YearTaken INT NOT NULL,
@@ -39,7 +38,7 @@ CREATE TABLE uct_science.AcademicRecord (
   FOREIGN KEY (CourseCode) REFERENCES Courses(CourseCode)
 );
 
-CREATE TABLE uct_science.CourseRequirements (
+CREATE TABLE IF NOT EXISTS uct_science.CourseRequirements (
   CourseRequirementsCourseID INT NOT NULL,
   CourseCode INT NOT NULL,
   PRIMARY KEY (CourseRequirementsCourseID, CourseCode),
@@ -47,7 +46,7 @@ CREATE TABLE uct_science.CourseRequirements (
   FOREIGN KEY (CourseCode) REFERENCES Courses(CourseCode)
 );
 
-CREATE TABLE uct_science.Courses (
+CREATE TABLE IF NOT EXISTS uct_science.Courses (
   CourseCode VARCHAR(255) PRIMARY KEY,
   CourseName VARCHAR(255) NOT NULL,
   CourseCredits INT,
@@ -58,7 +57,7 @@ CREATE TABLE uct_science.Courses (
 );
 
 
-CREATE TABLE uct_science.CoursePrerequisites (
+CREATE TABLE IF NOT EXISTS uct_science.CoursePrerequisites (
   PrerequisiteCourseID INT NOT NULL,
   CourseCode INT NOT NULL,
   PRIMARY KEY (PrerequisiteCourseID, CourseCode),
@@ -66,7 +65,7 @@ CREATE TABLE uct_science.CoursePrerequisites (
   FOREIGN KEY (CourseCode) REFERENCES Courses(CourseCode)
 );
 
-CREATE TABLE uct_science.CourseCorequisites (
+CREATE TABLE IF NOT EXISTS uct_science.CourseCorequisites (
   CorequisiteCourseID INT NOT NULL,
   CourseCode INT NOT NULL,
   PRIMARY KEY (CorequisiteCourseID, CourseCode),
@@ -74,7 +73,7 @@ CREATE TABLE uct_science.CourseCorequisites (
   FOREIGN KEY (CourseCode) REFERENCES Courses(CourseCode)
 );
 
-CREATE TABLE uct_science.Advisors (
+CREATE TABLE IF NOT EXISTS uct_science.Advisors (
   AdvisorID INT PRIMARY KEY,
   FirstName VARCHAR(255) NOT NULL,
   LastName VARCHAR(255) NOT NULL,
