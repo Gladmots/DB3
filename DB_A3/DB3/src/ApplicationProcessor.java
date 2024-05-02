@@ -3,6 +3,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.util.Enumeration;
 
 public class ApplicationProcessor {
     private static boolean driverLoadedSuccessfully = false;
@@ -25,7 +28,7 @@ public class ApplicationProcessor {
         try (Connection connection =  DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
 
             System.out.println("Connected to the database successfully.");
-            int studentId = 12345; // This would come from user input (Candidate Key between relations)
+            String studentId = "smijoh020"; // This would come from user input (Candidate Key between relations)
             String applicationStatus = getApplicantStatus(connection, studentId);
             System.out.println("Application Status: " + applicationStatus);
 
@@ -52,11 +55,11 @@ public class ApplicationProcessor {
         return DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
     }
 
-    private static String getApplicantStatus(Connection connection, int studentId) throws SQLException {
+    private static String getApplicantStatus(Connection connection, String studentId) throws SQLException {
         String status = null;
         String sql = "SELECT ApplicationStatus FROM Students WHERE StudentID = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, studentId);
+            statement.setString(1, studentId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     status = resultSet.getString("ApplicationStatus");
@@ -66,7 +69,7 @@ public class ApplicationProcessor {
         return status;
     }
 
-    private static boolean checkEligibility(Connection connection, int studentId) throws SQLException {
+    private static boolean checkEligibility(Connection connection, String studentId) throws SQLException {
         boolean isEligible = false;
        
         int majorID = MajorIDForStudent(connection, studentId);
@@ -75,7 +78,7 @@ public class ApplicationProcessor {
                      "(SELECT cr.CourseID FROM CourseRequirements cr WHERE cr.MajorID = ?)) AS CompletedCourses " +
                      "FROM CourseRequirements cr WHERE cr.MajorID = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, studentId);
+            statement.setString(1, studentId);
             statement.setInt(2, majorID);
             statement.setInt(3, majorID);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -87,11 +90,11 @@ public class ApplicationProcessor {
         return isEligible;
     }
 
-    private static int MajorIDForStudent(Connection connection, int studentId) throws SQLException {
+    private static int MajorIDForStudent(Connection connection, String studentId) throws SQLException {
         int majorID = 0;
         String sql = "SELECT MajorID FROM StudentPrograms WHERE StudentID = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, studentId);
+            statement.setString(1, studentId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     majorID = resultSet.getInt("MajorID");
@@ -101,11 +104,11 @@ public class ApplicationProcessor {
         return majorID;
     }
 
-    private static void updateApplicationStatus(Connection connection, int studentId, String newStatus) throws SQLException {
+    private static void updateApplicationStatus(Connection connection, String studentId, String newStatus) throws SQLException {
         String sql = "UPDATE Students SET ApplicationStatus = ? WHERE StudentID = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, newStatus);
-            statement.setInt(2, studentId);
+            statement.setString(2, studentId);
             statement.executeUpdate();
         }
     }

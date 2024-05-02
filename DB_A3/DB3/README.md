@@ -1,20 +1,13 @@
 ## Getting Started
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Requirements to run the code for the database
 
-## Folder Structure
+1. Ensure that JDK is installed on the system where you intend to compile and run the Java program.
+2. Set up a MySQL database with the appropriate schema and tables as expected by the application.Ensure that the database server  is running and accessible.
+3. Include the MySQL JDBC driver (mysql-connector-java) in the project's classpath.
+4. Compile the ApplicationProcessor.java file using javac ApplicationProcessor.java. Run the compiled class using java ApplicationProcessor.
 
-The workspace contains two folders by default, where:
+## Run the GUI 
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
-
-DZIVHA IS WHOEVER HE THINKS HE IS
+1. Use a drop down menu and select a student where you can see their details
+2. Run their application then get if they are eligible to transfer
