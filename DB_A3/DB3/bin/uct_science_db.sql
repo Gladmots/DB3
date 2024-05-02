@@ -1,23 +1,27 @@
 
-CREATE TABLE uct_science.Students (
+CREATE TABLE uct_science.Student (
   StudentID INT PRIMARY KEY,
   FirstName VARCHAR(255) NOT NULL,
   LastName VARCHAR(255) NOT NULL,
+  E-mail VARCHAR(255) NOT NULL,
   CurrentFaculty VARCHAR(255) NOT NULL,
   ApplicationStatus VARCHAR(255) NOT NULL DEFAULT 'New',
+  Funding VARCHAR(255) NOT NULL,
   AdvisorID INT,
-  Qualification VARCHAR(255),
+  CareerLevel VARCHAR(255),
   ExpectedGraduationDate DATE,
   FOREIGN KEY (AdvisorID) REFERENCES Advisors(AdvisorID)
+  
 );
 
 CREATE TABLE uct_science.Majors (
   MajorID INT PRIMARY KEY,
-  MajorCode VARCHAR(255) NOT NULL UNIQUE,
-  MajorName VARCHAR(255) NOT NULL
+  MajorName VARCHAR(255) NOT NULL,
+  Department VARCHAR(255) NOT NULL,
+  MajorRequirements VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE uct_science.StudentCourses (
+CREATE TABLE uct_science.AcademicRecord (
   StudentID INT NOT NULL,
   CourseID INT NOT NULL,
   YearTaken INT NOT NULL,
@@ -43,17 +47,10 @@ CREATE TABLE uct_science.Courses (
   DepartmentID INT NOT NULL,
   CourseConvenor VARCHAR(255) DEFAULT NULL,
   Lecturer VARCHAR(255) DEFAULT NULL,
+  Administrator VARCHAR(255) DEFAULT NULL,
   FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID)
 );
 
-CREATE TABLE uct_science.Department (
-  DepartmentID INT PRIMARY KEY,
-  DepartmentName VARCHAR(255) NOT NULL,
-  HeadOfDepartment VARCHAR(255) DEFAULT NULL,
-  Faculty VARCHAR(255) NOT NULL,
-  AdvisorID INT DEFAULT NULL,
-  FOREIGN KEY (AdvisorID) REFERENCES Advisors(AdvisorID)
-);
 
 CREATE TABLE uct_science.CoursePrerequisites (
   PrerequisiteCourseID INT NOT NULL,
@@ -80,14 +77,5 @@ CREATE TABLE uct_science.Advisors (
   FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID)
 );
 
-CREATE TABLE uct_science.AdvisorConsultation (
-  StudentID INT NOT NULL,
-  AdvisorID INT NOT NULL,
-  ConsultationDate DATE NOT NULL,
-  ConsultationNotes TEXT,
-  PRIMARY KEY (StudentID, AdvisorID, ConsultationDate),
-  FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
-  FOREIGN KEY (AdvisorID) REFERENCES Advisors(AdvisorID)
-);
 
 -- Add additional tables as needed for your specific requirements
